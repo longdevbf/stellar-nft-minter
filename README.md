@@ -81,10 +81,27 @@ Deploy lên Vercel:
    | `NEXT_PUBLIC_RPC_URL` | `https://soroban-testnet.stellar.org` | |
    | `NEXT_PUBLIC_NETWORK_PASSPHRASE` | `Test SDF Network ; September 2015` | Có dấu cách quanh `;` |
 
-4. Deploy
+4. **Framework Preset** phải là **Next.js**, không được để **Other**
+5. Deploy
 
-Nếu build lỗi ở bước cài đặt, đặt **Install Command** thành `npm install --ignore-scripts`
-(xem mục [Ghi chú Windows](#ghi-chú-windows) — nguyên nhân là `postinstall` của một
+### Nếu gặp lỗi `No Output Directory named "public" found`
+
+Vercel quét **gốc repo** để đoán framework lúc import. Gốc repo này là `Cargo.toml`
+(project Rust), không có `package.json`, nên Vercel kết luận **Other**. Đặt Root
+Directory thành `web` sau đó **không** làm preset tự đổi lại. Preset `Other` vẫn chạy
+`npm run build` nên build thành công, nhưng khâu thu output lại đi tìm thư mục `public`
+kiểu web tĩnh — trong khi Next.js xuất ra `.next`.
+
+⚠️ **Đừng làm theo gợi ý trong thông báo lỗi.** Đặt Output Directory thành `.next` sẽ
+tạo ra một trang tĩnh hỏng và mất luôn route `/api/ipfs` — chính chỗ giữ `PINATA_JWT`
+ở phía server.
+
+File [`web/vercel.json`](web/vercel.json) đã khai báo sẵn `framework: nextjs` để cấu hình
+nằm trong repo thay vì phụ thuộc vào thiết lập trên giao diện. Nếu vẫn lỗi, vào
+**Project Settings → General → Framework Preset** đổi thành **Next.js** rồi redeploy.
+
+`installCommand` trong file đó cũng đặt sẵn `npm install --ignore-scripts` — xem
+[Ghi chú Windows](#ghi-chú-windows) để biết vì sao (nguyên nhân là `postinstall` của một
 dependency, không riêng gì Windows).
 
 Chạy ở máy thì xem mục [Chạy thử](#chạy-thử) bên dưới.
