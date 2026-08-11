@@ -3,7 +3,34 @@
 Mint NFT có metadata lên Stellar. Ảnh lưu trên IPFS, thông tin ghi thẳng vào contract
 Soroban, bảng tin đọc trực tiếp từ sổ cái.
 
-**Contract đã deploy:** [`CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5`](https://stellar.expert/explorer/testnet/contract/CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5)
+## Thông tin nộp bài
+
+| Mục | Giá trị |
+|---|---|
+| **Contract address** | [`CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5`](https://stellar.expert/explorer/testnet/contract/CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5) |
+| **Mạng** | Stellar Testnet |
+| **Live demo** | *(xem mục Live demo bên dưới)* |
+
+### Transaction hash — kiểm chứng được trên Stellar Explorer
+
+| Việc | Tx hash | Kết quả |
+|---|---|---|
+| Deploy contract | [`4421406195b06b50…`](https://stellar.expert/explorer/testnet/tx/4421406195b06b50a431b21f57a2001e1683bb7e6a6b2da61aa8c8569787e56e) | Upload Wasm |
+| **Mint NFT #0** | [`36544bda58bea9d4…`](https://stellar.expert/explorer/testnet/tx/36544bda58bea9d4ef800c3fa0895164c38823b2f0fdabaa8f6188c990816257) | Success — phát 2 event |
+| **Mint NFT #1** | [`f66202eb905ac48b…`](https://stellar.expert/explorer/testnet/tx/f66202eb905ac48b46a9b9ea605d1a6adce5a0747d7231606fe0e75de3ec35a2) | Success — CID thật từ IPFS |
+
+Event của lần mint `#1`, đọc trực tiếp từ sổ cái:
+
+```
+Event: Mint   (mint)    to: GC6DYXYX…, token_id: 1
+Event: Minted (minted)  to: GC6DYXYX…, token_id: 1,
+                        name: "Anh tu IPFS",
+                        cid: "QmYZ9ZYJkk73ESJxxyKBAFeTX319Yjv6tFRVifX5dScxZV",
+                        minted_at: 1786434547
+```
+
+Ảnh của NFT #1 trên IPFS:
+[`QmYZ9ZYJkk73ESJxxyKBAFeTX319Yjv6tFRVifX5dScxZV`](https://gateway.pinata.cloud/ipfs/QmYZ9ZYJkk73ESJxxyKBAFeTX319Yjv6tFRVifX5dScxZV)
 
 ---
 
@@ -18,6 +45,28 @@ Soroban, bảng tin đọc trực tiếp từ sổ cái.
 | 2+ meaningful commits | `git log` | 5 commit, mỗi commit ghi rõ *tại sao* |
 | Multi-wallet | `web/lib/wallet.ts` | 8 ví: Freighter, xBull, Albedo, Rabet, Lobstr, Hana, HOT, Klever |
 | Real-time event integration | `web/lib/events.ts` | Poll `getEvents` mỗi 5s, hiện cả NFT người khác mint |
+
+---
+
+## Ảnh chụp
+
+### Các ví được hỗ trợ
+
+Modal chọn ví của Stellar Wallets Kit — 8 ví, mỗi ví hiện rõ đã cài hay chưa:
+
+![Danh sách ví được hỗ trợ](docs/images/wallets.png)
+
+### Toàn bộ ứng dụng
+
+Form mint bên trái, bảng tin đọc trực tiếp từ sổ cái bên phải:
+
+![Giao diện ứng dụng](docs/images/app.png)
+
+---
+
+## Live demo
+
+Chưa deploy — dự án chạy được ngay ở máy theo mục [Chạy thử](#chạy-thử) bên dưới.
 
 ---
 

@@ -74,23 +74,44 @@ export function getKit(): StellarWalletsKit {
 
 const STORAGE_KEY = 'nft-minter:wallet-id';
 
-/** Mo modal chon vi, tra ve dia chi cong khai da ket noi. */
-export async function connectWallet(): Promise<string> {
+/**
+ * Mo modal chon vi, tra ve dia chi cong khai da ket noi.
+ *
+ * `openModal()` tra ve Promise<void> va giai quyet NGAY KHI modal hien ra, chu
+ * khong doi nguoi dung chon xong vi. Neu goi `getAddress()` sau `await
+ * openModal(...)` thi no chay khi chua co vi nao duoc chon, nem loi, va nguoi
+ * dung thay bao loi do sau lung modal truoc ca khi kip bam - do la bug that,
+ * do duoc bang Playwright: modal mo luc 0s, loi hien luc ~3s.
+ *
+ * Vi vay dia chi phai duoc lay TRONG callback `onWalletSelected`.
+ */
+export function connectWallet(): Promise<string> {
   const k = getKit();
 
-  await k.openModal({
-    onWalletSelected: async (option) => {
-      k.setWallet(option.id);
-      window.localStorage.setItem(STORAGE_KEY, option.id);
-    },
+  return new Promise<string>((resolve, reject) => {
+    void k.openModal({
+      onWalletSelected: (option) => {
+        void (async () => {
+          try {
+            k.setWallet(option.id);
+            const { address } = await k.getAddress();
+            if (!address) {
+              // Mot so vi dong modal ma khong tra dia chi thay vi nem loi.
+              throw new Error('No address returned from wallet');
+            }
+            window.localStorage.setItem(STORAGE_KEY, option.id);
+            resolve(address);
+          } catch (e) {
+            reject(e);
+          }
+        })();
+      },
+      onClosed: (err) => {
+        // Nguoi dung bam X hoac bam ra ngoai: khong phai su co, chi la doi y.
+        reject(err ?? new Error('User cancelled wallet selection'));
+      },
+    });
   });
-
-  const { address } = await k.getAddress();
-  if (!address) {
-    // Mot so vi dong modal ma khong tra dia chi thay vi nem loi.
-    throw new Error('No address returned from wallet');
-  }
-  return address;
 }
 
 /**
