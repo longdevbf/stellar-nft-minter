@@ -66,7 +66,28 @@ Form mint bên trái, bảng tin đọc trực tiếp từ sổ cái bên phải
 
 ## Live demo
 
-Chưa deploy — dự án chạy được ngay ở máy theo mục [Chạy thử](#chạy-thử) bên dưới.
+> **URL:** _(điền vào sau khi deploy)_
+
+Deploy lên Vercel:
+
+1. [vercel.com/new](https://vercel.com/new) → Import repo `longdevbf/stellar-nft-minter`
+2. **Root Directory** → chọn `web` (bắt buộc — Next.js nằm trong thư mục con, không phải gốc repo)
+3. Thêm 4 biến môi trường:
+
+   | Tên | Giá trị | Ghi chú |
+   |---|---|---|
+   | `PINATA_JWT` | *(JWT của bạn)* | **Không** có tiền tố `NEXT_PUBLIC_` |
+   | `NEXT_PUBLIC_CONTRACT_ID` | `CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5` | |
+   | `NEXT_PUBLIC_RPC_URL` | `https://soroban-testnet.stellar.org` | |
+   | `NEXT_PUBLIC_NETWORK_PASSPHRASE` | `Test SDF Network ; September 2015` | Có dấu cách quanh `;` |
+
+4. Deploy
+
+Nếu build lỗi ở bước cài đặt, đặt **Install Command** thành `npm install --ignore-scripts`
+(xem mục [Ghi chú Windows](#ghi-chú-windows) — nguyên nhân là `postinstall` của một
+dependency, không riêng gì Windows).
+
+Chạy ở máy thì xem mục [Chạy thử](#chạy-thử) bên dưới.
 
 ---
 
