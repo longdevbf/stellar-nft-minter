@@ -1,0 +1,18 @@
+# Rust
+target
+
+# Stellar CLI local state
+.soroban
+.stellar
+
+# Node / Next.js
+node_modules
+web/.next
+web/out
+next-env.d.ts
+*.tsbuildinfo
+
+# Bi mat - KHONG BAO GIO commit. Chua Pinata JWT.
+.env
+.env.local
+.env*.local

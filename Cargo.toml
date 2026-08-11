@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = [
+  "contracts/*",
+]
+
+[workspace.dependencies]
+# Ghim cung 26.1.1 vi stellar-tokens 0.7.2 phu thuoc dung ban nay. Neu de "27"
+# thi cay phu thuoc co hai ban soroban-sdk cung luc (26.1.1 + 27.0.5), va
+# `Env` cua hai ban la hai kieu khac nhau -> khong compile.
+# Nhanh main cua OZ da chuyen sang sdk 27 nhung chua phat hanh len crates.io.
+soroban-sdk = "=26.1.1"
+
+# OpenZeppelin Stellar Contracts. Ghim cung bang "=" theo khuyen nghi cua OZ:
+# cac crate nay phat hanh dong bo va gia dinh cung phien ban voi nhau.
+stellar-tokens = "=0.7.2"
+stellar-macros = "=0.7.2"
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+# For more information about this profile see https://developers.stellar.org/docs/build/smart-contracts/example-contracts/logging#cargotoml-profile
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true
