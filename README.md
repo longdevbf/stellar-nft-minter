@@ -9,7 +9,8 @@ Soroban, bảng tin đọc trực tiếp từ sổ cái.
 |---|---|
 | **Contract address** | [`CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5`](https://stellar.expert/explorer/testnet/contract/CA7R5YUFEK5VGMY6V7TZKAJI3UESODFN77BFK37XVEHHBJUTFBANKQI5) |
 | **Mạng** | Stellar Testnet |
-| **Live demo** | *(xem mục Live demo bên dưới)* |
+| **Live demo** | **https://stellar-nft-minter-5bhe.vercel.app** |
+| **Repository** | https://github.com/longdevbf/stellar-nft-minter |
 
 ### Transaction hash — kiểm chứng được trên Stellar Explorer
 
@@ -42,9 +43,12 @@ Event: Minted (minted)  to: GC6DYXYX…, token_id: 1,
 | Contract deployed on testnet | `CA7R5YU…BANKQI5` | Đã mint thật, xem link explorer bên trên |
 | Contract called from frontend | `web/lib/contract.ts` | `mintNft()` — build → simulate → ký → submit → chờ ledger |
 | Transaction status visible | `web/components/TxStatus.tsx` | Máy trạng thái 6 bước, tx hash + link explorer |
-| 2+ meaningful commits | `git log` | 5 commit, mỗi commit ghi rõ *tại sao* |
+| 2+ meaningful commits | `git log` | Mỗi commit ghi rõ *tại sao*, không chỉ *cái gì* |
 | Multi-wallet | `web/lib/wallet.ts` | 8 ví: Freighter, xBull, Albedo, Rabet, Lobstr, Hana, HOT, Klever |
 | Real-time event integration | `web/lib/events.ts` | Poll `getEvents` mỗi 5s, hiện cả NFT người khác mint |
+| Screenshot ví | [`docs/images/wallets.png`](docs/images/wallets.png) | Modal chọn ví, 8 lựa chọn |
+| Live demo | Vercel | https://stellar-nft-minter-5bhe.vercel.app |
+| Transaction hash | Bảng bên trên | 3 tx, kiểm chứng được trên Stellar Explorer |
 
 ---
 
@@ -66,7 +70,23 @@ Form mint bên trái, bảng tin đọc trực tiếp từ sổ cái bên phải
 
 ## Live demo
 
-> **URL:** _(điền vào sau khi deploy)_
+### 👉 https://stellar-nft-minter-5bhe.vercel.app
+
+Cần một ví Stellar (khuyến nghị [Freighter](https://freighter.app)) đã **chuyển sang
+Testnet** và có XLM từ [Friendbot](https://friendbot.stellar.org).
+
+Đã kiểm chứng trên bản production:
+
+| Kiểm tra | Kết quả |
+|---|---|
+| Trang chủ | HTTP 200, 0,7 giây |
+| Route `/api/ipfs` | Trả `400` với body sai định dạng — chứng tỏ `PINATA_JWT` đã cấu hình đúng (thiếu biến sẽ trả `500`) |
+| Kiểm tra kiểu file | Trả `415` với file không phải ảnh |
+| Rò rỉ secret | `PINATA_JWT` **không** xuất hiện trong HTML trả về |
+
+---
+
+### Tự deploy lại
 
 Deploy lên Vercel:
 
@@ -266,3 +286,5 @@ Nhánh `main` của OZ đã chuyển sang SDK 27 nhưng chưa phát hành lên c
 | `DuplicateCid` | Trả về đúng `Error(Contract, #3)` trên mạng thật |
 | Đọc event | Lọc đúng 2 event `minted` trong 4 event |
 | Rò rỉ secret | `PINATA_JWT` **không** có trong `.next/static` và không có trong HTML |
+| Mint từ trình duyệt | NFT `#2` được mint bằng ví khác (`GBTWY6…OY6NM5`) qua giao diện web — thấy trong ảnh chụp |
+| Bản production | Trang chủ 200, `/api/ipfs` trả 400/415 đúng, không lộ secret |
